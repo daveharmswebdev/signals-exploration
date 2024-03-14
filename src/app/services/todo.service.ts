@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { ITodoListItem } from '../models/ITodo';
 import { PagedTodoList } from '../models/PagedTodoList';
 import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 
 @Injectable({
   providedIn: 'root',
@@ -29,10 +30,12 @@ export class TodoService {
       .subscribe(todos => this.todosSignal.set(todos));
   }
 
-  getTodosPaged(pageEvent: PageEvent) {
+  getTodosPaged(pageEvent: PageEvent, sort: Sort) {
     const queryParams = new HttpParams()
       .append('page', pageEvent.pageIndex + 1)
-      .append('pageSize', pageEvent.pageSize);
+      .append('pageSize', pageEvent.pageSize)
+      .append('sortBy', sort.active)
+      .append('isAscending', sort.direction === 'asc');
 
     this.http
       .get<PagedTodoList>('https://localhost:7106/api/Todos/paged', {
