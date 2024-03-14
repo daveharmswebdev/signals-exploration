@@ -1,11 +1,13 @@
-<mat-card>
-  <mat-card-header>#{{ todo.id }} : {{ todo.title }}</mat-card-header>
-  <mat-card-content>
-    {{ todo.description }}
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="complete(todo)">
-      {{ todo.completed ? 'Undo Complete' : 'Complete' }}
-    </button>
-  </mat-card-actions>
-</mat-card>
+@if (todo(); as todo) {
+  <mat-card>
+    <mat-card-header>#{{ todo.id }} : {{ todo.title }}</mat-card-header>
+    <mat-card-content>
+      {{ todo.description }}
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button (click)="complete(todo)">
+        {{ buttonText }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+}

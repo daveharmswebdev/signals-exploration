@@ -1,6 +1,8 @@
-@for (todo of todos(); track todo.id) {
-  <app-todo-card
-    [todo]="todo"
-    (completeTodo)="completeTodo($event)"
-  ></app-todo-card>
-}
+<div class="todos-container">
+  @for (todo of todos().items; track todo.id) {
+    <app-todo-card
+      [todo]="todo"
+      (completeTodo)="completeTodo($event)"
+    ></app-todo-card>
+  }
+</div>

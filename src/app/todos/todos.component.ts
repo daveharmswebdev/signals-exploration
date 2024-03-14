@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../services/todo.service';
 import { JsonPipe } from '@angular/common';
 import { TodoCardComponent } from './todo-card/todo-card.component';
-import { ITodo } from '../models/ITodo';
+import { ITodoListItem } from '../models/ITodo';
 
 @Component({
   selector: 'app-todos',
@@ -20,7 +20,7 @@ export class TodosComponent implements OnInit {
     this.todosService.getTodos();
   }
 
-  completeTodo(todo: ITodo) {
+  completeTodo(todo: ITodoListItem) {
     this.todosService.updateTodo(todo);
   }
 }

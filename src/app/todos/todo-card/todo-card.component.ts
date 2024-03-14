@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ITodo } from '../../models/ITodo';
+import { ITodoListItem } from '../../models/ITodo';
 import { MatButtonModule } from '@angular/material/button';
+import { TodoStatus } from '../../models/TodoStatus';
 
 @Component({
   selector: 'app-todo-card',
@@ -11,11 +12,17 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './todo-card.component.scss',
 })
 export class TodoCardComponent {
-  @Input() todo!: ITodo;
-  @Output() completeTodo = new EventEmitter<ITodo>();
+  todo = input.required<ITodoListItem>();
+  @Output() completeTodo = new EventEmitter<ITodoListItem>();
 
-  public complete(todo: ITodo): void {
-    const completedTodo = { ...todo, completed: !todo.completed };
+  get buttonText() {
+    return this.todo().status === 2 ? 'Undo Complete' : 'Complete';
+  }
+
+  public complete(todo: ITodoListItem): void {
+    const status =
+      todo.status === TodoStatus.New ? TodoStatus.Completed : TodoStatus.New;
+    const completedTodo = { ...todo, status };
     this.completeTodo.emit(completedTodo);
   }
 }

@@ -1,12 +1,20 @@
 import { Injectable, signal } from '@angular/core';
-import { ITodo } from '../models/ITodo';
 import { HttpClient } from '@angular/common/http';
+import { ITodoListItem } from '../models/ITodo';
+import { PagedTodoList } from '../models/PagedTodoList';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoService {
-  private todosSignal = signal<ITodo[]>([]);
+  private baseUrl = 'https://localhost:7106/api/Todos/';
+  private todosSignal = signal<PagedTodoList>({
+    items: [],
+    page: 0,
+    pageSize: 0,
+    totalCount: 0,
+    totalPages: 0,
+  });
 
   readonly todos = this.todosSignal.asReadonly();
 
@@ -14,15 +22,15 @@ export class TodoService {
 
   getTodos(): void {
     this.http
-      .get<ITodo[]>('http://localhost:3049/api/todos')
+      .get<PagedTodoList>(
+        this.baseUrl + 'paged?page=1&pageSize=10&isAscending=true'
+      )
       .subscribe(todos => this.todosSignal.set(todos));
   }
 
-  updateTodo(todo: ITodo): void {
-    const { id, ...body } = todo;
-
+  updateTodo({ id, title, description, status }: ITodoListItem): void {
     this.http
-      .put<ITodo>('http://localhost:3049/api/todos/' + todo.id, body)
+      .put<ITodoListItem>(this.baseUrl + id, { title, description, status })
       .subscribe({
         next: () => this.getTodos(),
         error: error => {

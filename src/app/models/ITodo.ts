@@ -1,6 +1,10 @@
-export interface ITodo {
+import { TodoStatus } from './TodoStatus';
+
+export interface ITodoListItem {
   id: number;
   title: string;
   description: string;
-  completed: boolean;
+  status: TodoStatus;
+  createdAt: Date;
+  modifiedAt: Date;
 }
