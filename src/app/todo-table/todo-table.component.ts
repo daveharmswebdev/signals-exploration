@@ -13,6 +13,12 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 })
 export class TodoTableComponent implements OnInit {
   todos = this.todosService.todos;
+  // paging = signal<PageEvent>({
+  //   length: 0,
+  //   pageIndex: 0,
+  //   pageSize: 0,
+  //   previousPageIndex: 0,
+  // });
 
   displayedColumns: string[] = [
     'id',
@@ -31,5 +37,6 @@ export class TodoTableComponent implements OnInit {
 
   pageEvent(pageEvent: PageEvent) {
     console.log(pageEvent);
+    this.todosService.getTodosPaged(pageEvent);
   }
 }

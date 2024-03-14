@@ -1,7 +1,8 @@
 import { Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { ITodoListItem } from '../models/ITodo';
 import { PagedTodoList } from '../models/PagedTodoList';
+import { PageEvent } from '@angular/material/paginator';
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +26,18 @@ export class TodoService {
       .get<PagedTodoList>(
         this.baseUrl + 'paged?page=1&pageSize=10&isAscending=true'
       )
+      .subscribe(todos => this.todosSignal.set(todos));
+  }
+
+  getTodosPaged(pageEvent: PageEvent) {
+    const queryParams = new HttpParams()
+      .append('page', pageEvent.pageIndex + 1)
+      .append('pageSize', pageEvent.pageSize);
+
+    this.http
+      .get<PagedTodoList>('https://localhost:7106/api/Todos/paged', {
+        params: queryParams,
+      })
       .subscribe(todos => this.todosSignal.set(todos));
   }
 
