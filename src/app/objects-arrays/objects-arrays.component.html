@@ -1,0 +1,11 @@
+<div>
+  <div>
+    {{ course().title }}
+  </div>
+
+  @for (c of courses(); track c.id) {
+    <div>{{ c.title }}</div>
+  }
+
+  <button mat-raised-button (click)="update()">Update</button>
+</div>

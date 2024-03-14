@@ -1,0 +1,18 @@
+<div>
+  <div>Mutable Property</div>
+  <div>{{counter}}</div>
+  <button mat-raised-button color="primary" (click)="increment()">Add</button>
+</div>
+
+<div>
+  <div>Behavior Subject</div>
+  <div>{{ counterSubject | async }}</div>
+  <button mat-raised-button color="primary" (click)="incrementBehaviorSubject()">Add Subject</button>
+</div>
+
+<div>
+  <div>Signal Counter</div>
+  <div>{{ counterSignal() }}</div>
+  <button mat-raised-button color="primary" (click)="incrementSignalCount()">Increment Signal Count</button>
+</div>
+

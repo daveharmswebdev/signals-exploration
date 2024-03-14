@@ -1,0 +1,13 @@
+<mat-card>
+  <mat-card-header>{{ course.title }} : {{ course.id }}</mat-card-header>
+  <mat-card-content>
+    <div [style.color]="course.color">
+      {{ course.completed }}
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="complete.emit(course.id)">
+      Complete
+    </button>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,6 @@
+@for (todo of todos(); track todo.id) {
+  <app-todo-card
+    [todo]="todo"
+    (completeTodo)="completeTodo($event)"
+  ></app-todo-card>
+}
