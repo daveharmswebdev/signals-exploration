@@ -1,0 +1,28 @@
+<!--<pre>{{ todos$ | async | json }}</pre>-->
+<!--<pre>{{ todosSignal() | json }}</pre>-->
+<div class="container">
+  <!--  @if (todos.length) {-->
+  <!--  <div>-->
+  <!--    <h2>Property</h2>-->
+  <!--    @for (todo of todos; track todo.id) {-->
+  <!--      <p>{{ todo.id }} : {{ todo.title }}</p>-->
+  <!--    }-->
+  <!--  </div>-->
+  <!--  }-->
+
+  <!--  @if (todos$ | async; as todos) {-->
+  <!--    <div>-->
+  <!--      <h2>RxJs</h2>-->
+  <!--      @for (todo of todos; track todo.id) {-->
+  <!--        <p>{{ todo.id }} : {{ todo.title }}</p>-->
+  <!--      }-->
+  <!--    </div>-->
+  <!--  }-->
+
+  <div>
+    <h2>Signals</h2>
+    @for (todo of todosSignal(); track todo.id) {
+      <p>{{ todo.id }} : {{ todo.title }}</p>
+    }
+  </div>
+</div>

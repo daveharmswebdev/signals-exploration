@@ -4,6 +4,7 @@ import { ITodoListItem } from '../models/ITodo';
 import { PagedTodoList } from '../models/PagedTodoList';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +29,14 @@ export class TodoService {
         this.baseUrl + 'paged?page=1&pageSize=10&isAscending=true'
       )
       .subscribe(todos => this.todosSignal.set(todos));
+  }
+
+  plainGetTodos() {
+    return this.http
+      .get<PagedTodoList>(
+        this.baseUrl + 'paged?page=1&pageSize=10&isAscending=true'
+      )
+      .pipe(map(pagedTodos => pagedTodos.items.slice(0, 5)));
   }
 
   getTodosPaged(pageEvent: PageEvent, sort: Sort) {
