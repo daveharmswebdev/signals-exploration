@@ -1,5 +1,23 @@
 @if (todos(); as todos) {
   <div class="container">
+    <mat-form-field class="example-full-width">
+      <mat-label>Search</mat-label>
+      <input
+        matInput
+        placeholder="Search String"
+        [formControl]="searchControl"
+      />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Search Model</mat-label>
+      <input
+        matInput
+        placeholder="Search String"
+        [(ngModel)]="todosService.searchModel"
+      />
+    </mat-form-field>
+
     <table
       mat-table
       [dataSource]="todos.items"

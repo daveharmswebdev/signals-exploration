@@ -1,4 +1,4 @@
-import { effect, Injectable, signal } from '@angular/core';
+import { effect, Injectable, model, signal } from '@angular/core';
 import { PagedTodoList } from '../models/PagedTodoList';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
@@ -32,12 +32,23 @@ export class FancyTodosService {
     direction: 'asc',
   });
 
+  searching = signal<string>('');
+
+  searchModel = model('');
+
   constructor(private http: HttpClient) {
     effect(() => {
       const paging = this.paging();
       const sorting = this.sorting();
+      const searchString = this.searchModel();
 
-      this.getTodosPaged(paging, sorting);
+      this.getTodosPaged(paging, sorting, searchString);
+    });
+
+    effect(() => {
+      const searchString = this.searchModel();
+
+      console.log(searchString);
     });
   }
 
@@ -49,16 +60,25 @@ export class FancyTodosService {
       status,
     };
     this.http.put(this.baseUrl + id, body).subscribe(response => {
-      this.getTodosPaged(this.paging(), this.sorting());
+      this.getTodosPaged(this.paging(), this.sorting(), this.searching());
     });
   }
 
-  private getTodosPaged(pageEvent: PageEvent, sort: Sort) {
+  search(searchString = '') {
+    this.searching.set(searchString);
+  }
+
+  private getTodosPaged(
+    pageEvent: PageEvent,
+    sort: Sort,
+    searchString: string
+  ) {
     const queryParams = new HttpParams()
       .append('page', pageEvent.pageIndex + 1)
       .append('pageSize', pageEvent.pageSize)
       .append('sortBy', sort.active)
-      .append('isAscending', sort.direction === 'asc');
+      .append('isAscending', sort.direction === 'asc')
+      .append('search', searchString);
 
     this.http
       .get<PagedTodoList>(this.baseUrl + 'paged', {
