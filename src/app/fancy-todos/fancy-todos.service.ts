@@ -1,9 +1,20 @@
-import { effect, Injectable, model, signal } from '@angular/core';
+import { effect, Injectable, model, signal, untracked } from '@angular/core';
 import { PagedTodoList } from '../models/PagedTodoList';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpParams,
+} from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { ITodoListItem } from '../models/ITodo';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  throwError,
+} from 'rxjs';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({
   providedIn: 'root',
@@ -32,24 +43,52 @@ export class FancyTodosService {
     direction: 'asc',
   });
 
-  searching = signal<string>('');
+  // searching = signal<string>('');
 
   searchModel = model('');
+
+  searchSignal = toSignal(
+    toObservable(this.searchModel).pipe(
+      debounceTime(500),
+      distinctUntilChanged()
+    )
+  );
 
   constructor(private http: HttpClient) {
     effect(() => {
       const paging = this.paging();
       const sorting = this.sorting();
-      const searchString = this.searchModel();
+      const searchString = untracked(this.searchSignal);
+      // const searchString = this.searching();
 
-      this.getTodosPaged(paging, sorting, searchString);
+      this.getTodosPaged(paging, sorting, searchString || '');
     });
 
-    effect(() => {
-      const searchString = this.searchModel();
+    effect(
+      () => {
+        const searchString = this.searchSignal();
+        const paging: PageEvent = {
+          length: 0,
+          pageIndex: 0,
+          pageSize: 10,
+          previousPageIndex: 0,
+        };
+        const sorting: Sort = {
+          active: '',
+          direction: 'asc',
+        };
 
-      console.log(searchString);
-    });
+        this.paging.set({
+          length: 0,
+          pageIndex: 0,
+          pageSize: 10,
+          previousPageIndex: 0,
+        });
+
+        this.getTodosPaged(paging, sorting, searchString || '');
+      },
+      { allowSignalWrites: true }
+    );
   }
 
   updateTodo(todo: ITodoListItem) {
@@ -60,12 +99,21 @@ export class FancyTodosService {
       status,
     };
     this.http.put(this.baseUrl + id, body).subscribe(response => {
-      this.getTodosPaged(this.paging(), this.sorting(), this.searching());
+      this.getTodosPaged(this.paging(), this.sorting(), this.searchModel());
     });
   }
 
-  search(searchString = '') {
-    this.searching.set(searchString);
+  // search(searchString = '') {
+  //   this.searching.set(searchString);
+  // }
+
+  delete(todo: ITodoListItem) {
+    this.http
+      .delete(this.baseUrl + todo.id)
+      .pipe(catchError(this.handleError))
+      .subscribe(() =>
+        this.getTodosPaged(this.paging(), this.sorting(), this.searchModel())
+      );
   }
 
   private getTodosPaged(
@@ -85,5 +133,23 @@ export class FancyTodosService {
         params: queryParams,
       })
       .subscribe(todos => this.todosSignal.set(todos));
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    if (error.status === 0) {
+      // A client-side or network error occurred. Handle it accordingly.
+      console.error('An error occurred:', error.error);
+    } else {
+      // The backend returned an unsuccessful response code.
+      // The response body may contain clues as to what went wrong.
+      console.error(
+        `Backend returned code ${error.status}, body was: `,
+        error.error
+      );
+    }
+    // Return an observable with a user-facing error message.
+    return throwError(
+      () => new Error('Something bad happened; please try again later.')
+    );
   }
 }
