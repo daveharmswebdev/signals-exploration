@@ -1,0 +1,15 @@
+<form [formGroup]="todoForm" (submit)="submit()">
+  <mat-form-field>
+    <mat-label>Title</mat-label>
+    <input matInput placeholder="Enter title" formControlName="title" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Description</mat-label>
+    <input
+      matInput
+      placeholder="Enter description"
+      formControlName="description"
+    />
+  </mat-form-field>
+  <button mat-raised-button>Submit</button>
+</form>
