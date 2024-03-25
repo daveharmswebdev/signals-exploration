@@ -10,6 +10,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { CreateDialogComponent } from '../todos/create-dialog/create-dialog.component';
 
 @Component({
   selector: 'app-fancy-todos',
@@ -26,6 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule,
     FormsModule,
     MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
   ],
   templateUrl: './fancy-todos.component.html',
   styleUrl: './fancy-todos.component.scss',
@@ -50,7 +55,10 @@ export class FancyTodosComponent implements OnInit {
     'action',
   ];
 
-  constructor(protected todosService: FancyTodosService) {
+  constructor(
+    protected todosService: FancyTodosService,
+    private dialog: MatDialog
+  ) {
     // effect(
     //   () => {
     //     const searchString = this.searchSignal();
@@ -81,5 +89,15 @@ export class FancyTodosComponent implements OnInit {
   delete(todo: ITodoListItem) {
     console.log('delete', todo);
     this.todosService.delete(todo);
+  }
+
+  launchCreateTodo() {
+    const dialogRef = this.dialog.open(CreateDialogComponent, {
+      width: '300px',
+      height: '400px',
+    });
+    dialogRef
+      .afterClosed()
+      .subscribe(todo => this.todosService.createTodo(todo));
   }
 }

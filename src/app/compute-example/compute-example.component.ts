@@ -4,12 +4,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { JsonPipe } from '@angular/common';
 import { ICourse } from '../objects-arrays/objects-arrays.component';
 import { CourseCardComponent } from '../course-card/course-card.component';
-import { TodoService } from '../services/todo.service';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-compute-example',
   standalone: true,
-  imports: [MatButtonModule, JsonPipe, CourseCardComponent],
+  imports: [MatButtonModule, JsonPipe, CourseCardComponent, MatCardModule],
   templateUrl: './compute-example.component.html',
   styleUrl: './compute-example.component.scss',
 })

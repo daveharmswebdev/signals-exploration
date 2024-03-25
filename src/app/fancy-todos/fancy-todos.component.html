@@ -18,6 +18,10 @@
           [(ngModel)]="todosService.searchModel"
         />
       </mat-form-field>
+
+      <button mat-raised-button color="primary" (click)="launchCreateTodo()">
+        New Todo
+      </button>
     </div>
 
     <table

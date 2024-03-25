@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { ITodoListItem } from '../../models/ITodo';
 import { MatButtonModule } from '@angular/material/button';
@@ -13,8 +13,8 @@ import { TodoStatus } from '../../models/TodoStatus';
 })
 export class TodoCardComponent {
   todo = input.required<ITodoListItem>();
-  @Output() completeTodo = new EventEmitter<ITodoListItem>();
-
+  completeTodo = output<ITodoListItem>();
+  // completeTodo = output<ITodoListItem>();
   get buttonText() {
     return this.todo().status === 2 ? 'Undo Complete' : 'Complete';
   }

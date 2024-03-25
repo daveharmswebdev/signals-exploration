@@ -7,7 +7,7 @@ import {
 } from '@angular/common/http';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
-import { ITodoListItem } from '../models/ITodo';
+import { ICreateTodoDto, ITodoListItem } from '../models/ITodo';
 import {
   catchError,
   debounceTime,
@@ -89,6 +89,14 @@ export class FancyTodosService {
       },
       { allowSignalWrites: true }
     );
+  }
+
+  createTodo(todo: ICreateTodoDto) {
+    this.http
+      .post(this.baseUrl, todo)
+      .subscribe(() =>
+        this.getTodosPaged(this.paging(), this.sorting(), this.searchModel())
+      );
   }
 
   updateTodo(todo: ITodoListItem) {

@@ -1,8 +1,9 @@
-<div>
+<mat-card class="compute-container">
+  <h2>Demo: compute and effect</h2>
   @for (c of derivedCourses(); track c.id) {
     <app-course-card
       [course]="c"
       (complete)="complete($event)"
     ></app-course-card>
   }
-</div>
+</mat-card>

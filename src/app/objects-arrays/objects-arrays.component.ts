@@ -1,7 +1,8 @@
-import { Component, OnInit, Signal, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { CoursesService } from '../services/courses.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { MatCardModule } from '@angular/material/card';
 
 export interface ICourse {
   id: number;
@@ -13,7 +14,7 @@ export interface ICourse {
 @Component({
   selector: 'app-objects-arrays',
   standalone: true,
-  imports: [MatButtonModule],
+  imports: [MatButtonModule, MatCardModule],
   templateUrl: './objects-arrays.component.html',
   styleUrl: './objects-arrays.component.scss',
 })

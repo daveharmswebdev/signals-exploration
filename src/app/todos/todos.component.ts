@@ -3,11 +3,12 @@ import { TodoService } from '../services/todo.service';
 import { JsonPipe } from '@angular/common';
 import { TodoCardComponent } from './todo-card/todo-card.component';
 import { ITodoListItem } from '../models/ITodo';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-todos',
   standalone: true,
-  imports: [JsonPipe, TodoCardComponent],
+  imports: [JsonPipe, TodoCardComponent, MatCardModule],
   templateUrl: './todos.component.html',
   styleUrl: './todos.component.scss',
 })

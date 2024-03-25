@@ -1,11 +1,15 @@
-<div>
+<mat-card class="oa-container">
+  <h2>Demo: signal set and toSignal()</h2>
+
   <div>
     {{ course().title }}
   </div>
+  <br />
 
   @for (c of courses(); track c.id) {
     <div>{{ c.title }}</div>
+    <br />
   }
 
   <button mat-raised-button (click)="update()">Update</button>
-</div>
+</mat-card>

@@ -1,18 +1,29 @@
-<div>
-  <div>Mutable Property</div>
-  <div>{{counter}}</div>
-  <button mat-raised-button color="primary" (click)="increment()">Add</button>
-</div>
+<mat-card class="counter-container">
+  <h1>signal()</h1>
 
-<div>
-  <div>Behavior Subject</div>
-  <div>{{ counterSubject | async }}</div>
-  <button mat-raised-button color="primary" (click)="incrementBehaviorSubject()">Add Subject</button>
-</div>
+  <div>
+    <div>Mutable Property counter: number=0</div>
+    <div>{{ counter }}</div>
+    <button mat-raised-button color="primary" (click)="increment()">Add</button>
+  </div>
 
-<div>
-  <div>Signal Counter</div>
-  <div>{{ counterSignal() }}</div>
-  <button mat-raised-button color="primary" (click)="incrementSignalCount()">Increment Signal Count</button>
-</div>
+  <div>
+    <div>Behavior Subject counterSubject = new BehaviorSubject(0);</div>
+    <div>{{ counterSubject | async }}</div>
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="incrementBehaviorSubject()"
+    >
+      Add Subject
+    </button>
+  </div>
 
+  <div>
+    <div>Signal Counter counterSignal = signal(0);</div>
+    <div>{{ counterSignal() }}</div>
+    <button mat-raised-button color="primary" (click)="incrementSignalCount()">
+      Increment Signal Count
+    </button>
+  </div>
+</mat-card>

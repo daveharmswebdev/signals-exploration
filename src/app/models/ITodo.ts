@@ -8,3 +8,8 @@ export interface ITodoListItem {
   createdAt: Date;
   modifiedAt: Date;
 }
+
+export interface ICreateTodoDto {
+  title: string;
+  description: string;
+}
