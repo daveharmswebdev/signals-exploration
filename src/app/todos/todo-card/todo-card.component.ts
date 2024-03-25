@@ -14,7 +14,7 @@ import { TodoStatus } from '../../models/TodoStatus';
 export class TodoCardComponent {
   todo = input.required<ITodoListItem>();
   completeTodo = output<ITodoListItem>();
-  // completeTodo = output<ITodoListItem>();
+
   get buttonText() {
     return this.todo().status === 2 ? 'Undo Complete' : 'Complete';
   }

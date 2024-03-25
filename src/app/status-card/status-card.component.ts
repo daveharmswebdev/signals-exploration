@@ -1,4 +1,4 @@
-import { Component, EventEmitter, input, Output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
@@ -13,6 +13,5 @@ export class StatusCardComponent {
     transform: (status: number) => (status === 0 ? 'New' : 'Completed'),
   });
 
-  @Output()
-  changeStatus = new EventEmitter<void>();
+  changeStatus = output<void>();
 }
