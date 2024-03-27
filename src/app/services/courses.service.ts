@@ -22,6 +22,6 @@ export class CoursesService {
   }
 
   updateCourses(courses: ICourse[]) {
-    console.log(courses);
+    console.log('updated', courses);
   }
 }

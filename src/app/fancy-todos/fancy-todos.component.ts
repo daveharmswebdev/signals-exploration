@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FancyTodosService } from './fancy-todos.service';
 import { DatePipe, JsonPipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -35,16 +35,9 @@ import { CreateDialogComponent } from '../todos/create-dialog/create-dialog.comp
   templateUrl: './fancy-todos.component.html',
   styleUrl: './fancy-todos.component.scss',
 })
-export class FancyTodosComponent implements OnInit {
-  todos = this.todosService.todos;
-
-  // searchControl = new FormControl('');
-  // searchSignal = toSignal(
-  //   this.searchControl.valueChanges.pipe(
-  //     debounceTime(500),
-  //     distinctUntilChanged()
-  //   )
-  // );
+export class FancyTodosComponent {
+  protected todosService = inject(FancyTodosService);
+  private dialog = inject(MatDialog);
 
   displayedColumns: string[] = [
     'id',
@@ -54,31 +47,6 @@ export class FancyTodosComponent implements OnInit {
     'createdAt',
     'action',
   ];
-
-  constructor(
-    protected todosService: FancyTodosService,
-    private dialog: MatDialog
-  ) {
-    // effect(
-    //   () => {
-    //     const searchString = this.searchSignal();
-    //
-    //     if (searchString) {
-    //       this.todosService.search(searchString);
-    //     }
-    //   },
-    //   { allowSignalWrites: true }
-    // );
-  }
-
-  ngOnInit() {
-    // this.todosService.sorting.set({
-    //   active: '',
-    //   direction: '',
-    // });
-    // const initialSearchString = this.todosService.searching();
-    // this.searchControl.setValue(initialSearchString, { emitEvent: false });
-  }
 
   handleChangeStatus(todo: ITodoListItem) {
     console.log(todo);

@@ -19,6 +19,14 @@ export class TodoCardComponent {
     return this.todo().status === 2 ? 'Undo Complete' : 'Complete';
   }
 
+  constructor() {
+    // effect(() => {
+    //   const todo = this.todo();
+    //
+    //   console.log('i changed', todo);
+    // });
+  }
+
   public complete(todo: ITodoListItem): void {
     const status =
       todo.status === TodoStatus.New ? TodoStatus.Completed : TodoStatus.New;
